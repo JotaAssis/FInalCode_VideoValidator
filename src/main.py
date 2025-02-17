@@ -65,7 +65,7 @@ if __name__ == "__main__":
     client = gspread.authorize(creds)
 
     # Abrir a planilha do Google Sheets
-    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1RFzS2RsmkMhsCmqiCzqdk_7IhUzYI6b4eB1f0SvKHDU/edit?gid=799806951#gid=799806951")
+    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1prxKJOC2NYBvvz1g6M67citknednwPMj6vcPi1rFte0/edit?gid=0#gid=0")
     worksheet = sheet.get_worksheet(0)
 
     try:

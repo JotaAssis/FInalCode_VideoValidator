@@ -21,21 +21,23 @@ def analyze_video(video_url):
 
     found = False
     frame_count = 0
+    frame_skip = 1  # Número de frames a serem pulados
 
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret or frame_count > 300:
             break
 
-        results = model(frame)
-        for r in results:
-            for box in r.boxes:
-                cls = model.names[int(box.cls[0])]
-                if cls in TARGET_CLASSES:
-                    found = True
+        if frame_count % frame_skip == 0:
+            results = model(frame)
+            for r in results:
+                for box in r.boxes:
+                    cls = model.names[int(box.cls[0])]
+                    if cls in TARGET_CLASSES:
+                        found = True
+                        break
+                if found:
                     break
-            if found:
-                break
 
         frame_count += 1
 
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     worksheet = sheet.get_worksheet(0)
 
     try:
-        # Baixar a planilha como um DataFrame do pandas
+        # Baixar a planilha
         expected_headers = ["Veículo", "Frota", "Momento Infração","Infração","criticidade","Evidência","Local Infração",]  # Substitua pelos cabeçalhos reais da sua planilha
         data = worksheet.get_all_records(expected_headers=expected_headers)
         df = pd.DataFrame(data)
